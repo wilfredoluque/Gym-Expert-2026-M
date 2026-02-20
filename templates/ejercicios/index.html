@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}Ejercicios{% endblock %}
+
+{% block content %}
+<h2 class="fw-bold mb-4">Ejercicios</h2>
+
+<a href="{{ url_for('ejercicios.create') }}"
+class="btn btn-light mb-4 text-primary shadow-sm rounded-pill">
+<i class="bi bi-plus-circle"></i> Nuevo Ejercicio
+</a>
+
+<div class="card shadow-lg border-0 glass-card">
+<div class="card-body">
+
+<div class="table-responsive">
+<table class="table table-striped table-hover align-middle text-center">
+
+<thead class="table-dark">
+<tr>
+<th>ID</th>
+<th>Nombre</th>
+<th>Grupo muscular</th>
+<th>Acciones</th>
+</tr>
+</thead>
+
+<tbody>
+{% for e in data %}
+<tr>
+<td>{{ e.id }}</td>
+<td>{{ e.nombre }}</td>
+<td>
+<span class="badge bg-info text-dark rounded-pill px-3">
+{{ e.grupo_muscular }}
+</span>
+</td>
+
+<td>
+<a href="{{ url_for('ejercicios.edit', id=e.id) }}"
+class="btn btn-warning btn-sm rounded-pill px-3 me-2">
+Editar
+</a>
+
+<a href="{{ url_for('ejercicios.delete', id=e.id) }}"
+class="btn btn-danger btn-sm rounded-pill px-3"
+onclick="return confirm('¿Eliminar ejercicio?')">
+Eliminar
+</a>
+</td>
+</tr>
+{% endfor %}
+</tbody>
+
+</table>
+</div>
+
+</div>
+</div>
+{% endblock %}

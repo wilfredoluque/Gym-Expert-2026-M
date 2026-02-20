@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}Editar Rutina{% endblock %}
+
+{% block content %}
+<h2 class="fw-bold mb-4">Editar Rutina</h2>
+
+<div class="card shadow-lg border-0 glass-card">
+<div class="card-body">
+
+<form method="POST">
+
+<div class="mb-3">
+<label>Cliente</label>
+<select name="cliente_id" class="form-select">
+{% for c in clientes %}
+<option value="{{ c.id }}"
+{% if item.cliente_id == c.id %}selected{% endif %}>
+{{ c.nombre }}
+</option>
+{% endfor %}
+</select>
+</div>
+
+<div class="mb-3">
+<label>Entrenador</label>
+<select name="entrenador_id" class="form-select">
+{% for e in entrenadores %}
+<option value="{{ e.id }}"
+{% if item.entrenador_id == e.id %}selected{% endif %}>
+{{ e.nombre }}
+</option>
+{% endfor %}
+</select>
+</div>
+
+<div class="mb-3">
+<label>Nombre Rutina</label>
+<input type="text" name="nombre"
+value="{{ item.nombre }}"
+class="form-control">
+</div>
+
+<button class="btn btn-success btn-lg">
+<i class="bi bi-check"></i> Actualizar
+</button>
+
+</form>
+
+</div>
+</div>
+{% endblock %}

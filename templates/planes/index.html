@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% block title %}Planes{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+
+<h2 class="fw-bold mb-4">
+<i class="bi bi-card-checklist"></i> Gestión de Planes
+</h2>
+
+<div class="d-flex justify-content-between mb-3">
+
+<a href="{{ url_for('planes.create') }}"
+class="btn btn-primary shadow rounded-pill px-4">
+<i class="bi bi-plus-circle"></i> Nuevo Plan
+</a>
+
+<select id="filtroDuracion" class="form-select w-auto">
+<option value="">Filtrar por duración</option>
+{% for p in data %}
+{% if p.duracion_dias %}
+<option value="{{ p.duracion_dias }}">{{ p.duracion_dias }} días</option>
+{% endif %}
+{% endfor %}
+</select>
+
+</div>
+
+<div class="card shadow-lg border-0 rounded-4">
+<div class="card-body">
+
+<div class="table-responsive">
+
+<table id="tablaPlanes"
+class="table table-hover table-striped align-middle text-center">
+
+<thead class="table-dark">
+<tr>
+<th>ID</th>
+<th>Nombre</th>
+<th>Precio</th>
+<th>Duración</th>
+<th>Acciones</th>
+</tr>
+</thead>
+
+<tbody>
+{% for p in data %}
+<tr>
+<td>{{ p.id }}</td>
+<td class="fw-semibold">{{ p.nombre }}</td>
+<td>Bs {{ p.precio }}</td>
+
+<td>
+{% if p.tipo_plan == "sesion" %}
+    {{ p.duracion_horas if p.duracion_horas else 0 }} horas
+{% else %}
+    {{ p.duracion_dias if p.duracion_dias else 0 }} días
+{% endif %}
+</td>
+
+<td>
+
+<a href="{{ url_for('planes.edit', id=p.id) }}"
+class="btn btn-warning btn-sm rounded-pill px-3 me-2">
+<i class="bi bi-pencil"></i>Editar
+</a>
+
+<a href="{{ url_for('planes.delete', id=p.id) }}"
+class="btn btn-danger btn-sm rounded-pill px-3"
+onclick="return confirm('¿Eliminar plan?')">
+<i class="bi bi-trash"></i>Eliminar
+</a>
+
+</td>
+</tr>
+{% endfor %}
+</tbody>
+
+</table>
+
+</div>
+</div>
+</div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<script>
+$(document).ready(function() {
+
+let tabla = $('#tablaPlanes').DataTable({
+    pageLength: 6,
+    language: {
+        url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json"
+    }
+});
+
+$('#filtroDuracion').select2({
+    placeholder: "Filtrar duración",
+    width: "200px"
+});
+
+$('#filtroDuracion').on('change', function() {
+    tabla.column(3).search(this.value).draw();
+});
+
+});
+</script>
+
+{% endblock %}

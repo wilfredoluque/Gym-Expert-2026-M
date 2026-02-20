@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Editar Asistencia{% endblock %}
+
+{% block content %}
+<h2 class="fw-bold mb-4">Editar Asistencia</h2>
+
+<div class="card shadow-lg border-0 glass-card">
+<div class="card-body">
+
+<form method="POST">
+
+<div class="mb-3">
+<label class="form-label fw-semibold">Cliente</label>
+<select name="cliente_id" class="form-select form-select-lg">
+
+{% for c in clientes %}
+<option value="{{ c.id }}"
+{% if item.cliente_id == c.id %}selected{% endif %}>
+{{ c.nombre }} {{ c.apellido }}
+</option>
+{% endfor %}
+
+</select>
+</div>
+
+<button type="submit" class="btn btn-success btn-lg shadow-sm">
+Actualizar
+</button>
+
+<a href="{{ url_for('asistencias.index') }}"
+class="btn btn-secondary btn-lg">
+Volver
+</a>
+
+</form>
+
+</div>
+</div>
+{% endblock %}

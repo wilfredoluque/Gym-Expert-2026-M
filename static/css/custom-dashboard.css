@@ -1,0 +1,244 @@
+/* ============================= */
+/* 🎨 GYM EXPERT DARK PREMIUM   */
+/* ============================= */
+
+:root{
+  --amarillo:#FFD400;
+  --amarillo-hover:#E6BE00;
+
+  --bg:#0A0A0A;
+  --bg2:#141414;
+  --bg3:#1C1C1C;
+
+  --texto:#ffffff;
+  --texto2:#BFBFBF;
+
+  --borde:#2A2A2A;
+
+  --success:#22C55E;
+  --danger:#EF4444;
+  --warning:#F59E0B;
+  --info:#3B82F6;
+}
+
+/* ===== BODY ===== */
+body{
+  background:var(--bg) !important;
+  color:var(--texto);
+  font-family:'Poppins',sans-serif;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar{
+  background:#000 !important;
+}
+
+.sidebar .nav-item .nav-link{
+  color:var(--texto2);
+  font-weight:500;
+}
+
+.sidebar .nav-item .nav-link:hover{
+  background:rgba(255,212,0,0.1);
+  color:var(--amarillo);
+}
+
+.sidebar .nav-item.active .nav-link{
+  background:rgba(255,212,0,0.15);
+  color:var(--amarillo);
+  border-left:3px solid var(--amarillo);
+}
+
+/* LOGO AREA */
+.sidebar-brand{
+  background:#000;
+  border-bottom:1px solid #111;
+}
+
+/* ===== TOPBAR ===== */
+.topbar{
+  background:#000 !important;
+  border-bottom:1px solid var(--borde);
+}
+
+.topbar .navbar-search input{
+  background:#111;
+  border:1px solid var(--borde);
+  color:white;
+}
+
+/* ===== CARDS ===== */
+.card{
+  background:var(--bg2);
+  border:1px solid var(--borde);
+  border-radius:16px;
+}
+
+.card:hover{
+  box-shadow:0 0 25px rgba(255,212,0,0.08);
+}
+
+/* ===== DASHBOARD CARDS ===== */
+.border-left-primary{border-left:4px solid var(--info)!important;}
+.border-left-success{border-left:4px solid var(--success)!important;}
+.border-left-warning{border-left:4px solid var(--warning)!important;}
+.border-left-info{border-left:4px solid var(--amarillo)!important;}
+
+/* ===== BOTONES ===== */
+.btn-primary{
+  background:var(--amarillo);
+  border:none;
+  color:#000;
+  font-weight:600;
+}
+
+.btn-primary:hover{
+  background:var(--amarillo-hover);
+  color:#000;
+}
+
+.btn-warning{
+  background:var(--warning);
+  border:none;
+}
+
+.btn-danger{
+  background:var(--danger);
+  border:none;
+}
+
+/* ===== TABLAS ===== */
+.table{
+  color:var(--texto);
+}
+
+.table thead{
+  background:#000;
+}
+
+.table-striped tbody tr:nth-of-type(odd){
+  background:#111;
+}
+
+.table-hover tbody tr:hover{
+  background:#1f1f1f;
+}
+
+/* ===== INPUTS ===== */
+.form-control,
+.form-select{
+  background:#111;
+  border:1px solid var(--borde);
+  color:white;
+}
+
+.form-control:focus{
+  border-color:var(--amarillo);
+  box-shadow:0 0 0 2px rgba(255,212,0,0.2);
+  background:#111;
+  color:white;
+}
+
+/* ===== BADGES ===== */
+.badge.bg-success{background:var(--success);}
+.badge.bg-danger{background:var(--danger);}
+.badge.bg-warning{background:var(--warning);}
+.badge.bg-info{background:var(--info);}
+
+/* ===== DATATABLE ===== */
+.dataTables_wrapper{
+  color:white;
+}
+
+.dataTables_filter input{
+  background:#111;
+  border:1px solid var(--borde);
+  color:white;
+}
+
+.page-item.active .page-link{
+  background:var(--amarillo);
+  border:none;
+  color:black;
+}
+
+.page-link{
+  background:#111;
+  border:1px solid #222;
+  color:white;
+}
+
+/* ===== SELECT2 ===== */
+.select2-container--default .select2-selection--single{
+  background:#111;
+  border:1px solid var(--borde);
+  color:white;
+  height:38px;
+}
+
+.select2-dropdown{
+  background:#111;
+  border:1px solid var(--borde);
+  color:white;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar{
+  width:8px;
+}
+::-webkit-scrollbar-track{
+  background:#000;
+}
+::-webkit-scrollbar-thumb{
+  background:var(--amarillo);
+}
+/* ============================= */
+/* LOGO FONDO DASHBOARD PREMIUM  */
+/* ============================= */
+
+.dashboard-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* imagen */
+.dashboard-bg::before{
+    content: "";
+    position: absolute;
+    bottom: -80px;
+    left: 55%;
+    transform: translateX(-50%);
+    width: 650px;
+    height: 650px;
+
+    background: url("../img/logo_gym_expres.jpeg") no-repeat center;
+    background-size: contain;
+
+    opacity: 0.17; /* intensidad */
+    filter: grayscale(100%) contrast(120%);
+}
+
+/* capa oscura encima */
+.dashboard-bg::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background: radial-gradient(circle at center, transparent 40%, #0a0a0a 90%);
+    opacity:0.6;
+}
+
+/* asegurar contenido encima */
+#content-wrapper{
+    position:relative;
+    z-index:2;
+}
+
+.footer {
+    border-top: 1px solid rgba(255,255,255,0.08);
+    letter-spacing: 0.5px;
+}
+.footer span {
+    color: #0d6efd;
+}

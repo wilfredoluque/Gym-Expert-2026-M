@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% block title %}Crear Plan{% endblock %}
+
+{% block content %}
+<h2 class="fw-bold mb-4">Crear Plan</h2>
+
+<div class="card shadow-lg border-0 glass-card">
+<div class="card-body">
+
+<form method="POST">
+
+<div class="mb-3">
+<label class="form-label fw-semibold">Nombre</label>
+<input type="text" name="nombre" class="form-control" required>
+</div>
+
+<div class="mb-3">
+<label class="form-label fw-semibold">Precio</label>
+<input type="number" step="0.01" name="precio" class="form-control" required>
+</div>
+
+<div class="mb-3">
+<label class="form-label fw-semibold">Tipo de Plan</label>
+<select name="tipo_plan" id="tipo_plan" class="form-select" required>
+<option value="mensual">Mensual (Mes actual)</option>
+<option value="trimestral">Trimestral (90 días)</option>
+<option value="semestral">Semestral (180 días)</option>
+<option value="anual">Anual (365 días)</option>
+<option value="sesion">Por sesión (horas)</option>
+</select>
+</div>
+
+<!-- INFORMACIÓN AUTOMÁTICA -->
+<div class="mb-3" id="infoDuracion">
+<label class="form-label fw-semibold">Duración automática</label>
+<input type="text" id="duracionInfo" class="form-control" readonly>
+<small class="text-muted">
+Se calcula automáticamente según el tipo seleccionado.
+</small>
+</div>
+
+<!-- SOLO PARA SESIÓN -->
+<div class="mb-3" id="horasDiv" style="display:none;">
+<label class="form-label fw-semibold">Duración (horas)</label>
+<input type="number" name="duracion_horas" class="form-control">
+</div>
+
+<button type="submit" class="btn btn-primary">
+Guardar
+</button>
+
+<a href="{{ url_for('planes.index') }}" class="btn btn-secondary">
+Volver
+</a>
+
+</form>
+
+</div>
+</div>
+
+<script>
+function diasMesActual() {
+    const now = new Date();
+    return new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+}
+
+function actualizarInfo() {
+    const tipo = document.getElementById("tipo_plan").value;
+    const info = document.getElementById("duracionInfo");
+
+    if (tipo === "mensual") {
+        info.value = diasMesActual() + " días (mes actual)";
+        document.getElementById("infoDuracion").style.display = "block";
+        document.getElementById("horasDiv").style.display = "none";
+    }
+    else if (tipo === "trimestral") {
+        info.value = "90 días";
+        document.getElementById("infoDuracion").style.display = "block";
+        document.getElementById("horasDiv").style.display = "none";
+    }
+    else if (tipo === "semestral") {
+        info.value = "180 días";
+        document.getElementById("infoDuracion").style.display = "block";
+        document.getElementById("horasDiv").style.display = "none";
+    }
+    else if (tipo === "anual") {
+        info.value = "365 días";
+        document.getElementById("infoDuracion").style.display = "block";
+        document.getElementById("horasDiv").style.display = "none";
+    }
+    else {
+        document.getElementById("infoDuracion").style.display = "none";
+        document.getElementById("horasDiv").style.display = "block";
+    }
+}
+
+document.addEventListener("DOMContentLoaded", actualizarInfo);
+document.getElementById("tipo_plan").addEventListener("change", actualizarInfo);
+</script>
+
+{% endblock %}

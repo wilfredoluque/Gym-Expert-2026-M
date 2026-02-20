@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}Entrenadores{% endblock %}
+
+{% block content %}
+<h2 class="fw-bold mb-4">Entrenadores</h2>
+
+<a href="{{ url_for('entrenadores.create') }}"
+class="btn btn-light mb-4 text-primary shadow-sm rounded-pill">
+<i class="bi bi-plus-circle"></i> Nuevo Entrenador
+</a>
+
+<div class="card shadow-lg border-0 glass-card">
+<div class="card-body">
+
+<div class="table-responsive">
+<table id="tablaUsuarios"
+class="table table-striped table-hover align-middle text-center text-dark w-100">
+
+<thead class="table-dark">
+<tr>
+<th>ID</th>
+<th>Nombre</th>
+<th>Teléfono</th>
+<th>Especialidad</th>
+<th>Acciones</th>
+</tr>
+</thead>
+
+<tbody>
+{% for e in data %}
+<tr>
+<td>{{ e.id }}</td>
+<td>{{ e.nombre }}</td>
+<td>{{ e.telefono }}</td>
+<td>{{ e.especialidad }}</td>
+
+<td>
+<a href="{{ url_for('entrenadores.edit', id=e.id) }}"
+class="btn btn-warning btn-sm rounded-pill px-3 me-2">
+Editar
+</a>
+
+<a href="{{ url_for('entrenadores.delete', id=e.id) }}"
+class="btn btn-danger btn-sm rounded-pill px-3"
+onclick="return confirm('¿Eliminar entrenador?')">
+Eliminar
+</a>
+</td>
+</tr>
+{% endfor %}
+</tbody>
+
+</table>
+</div>
+
+</div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="/static/js/usuarios_datatable.js"></script>
+{% endblock %}

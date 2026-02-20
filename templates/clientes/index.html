@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% block title %}Clientes{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+
+<h2 class="fw-bold mb-4">
+<i class="bi bi-people"></i> Gestión de Clientes
+</h2>
+
+<div class="d-flex justify-content-between mb-3">
+
+<a href="{{ url_for('clientes.create') }}"
+class="btn btn-primary shadow rounded-pill px-4">
+<i class="bi bi-person-plus"></i> Nuevo Cliente
+</a>
+
+<!-- filtro select2 -->
+<select id="filtroApellido" class="form-select w-auto">
+<option value="">Filtrar por apellido</option>
+{% for c in data %}
+<option value="{{ c.apellido }}">{{ c.apellido }}</option>
+{% endfor %}
+</select>
+
+</div>
+
+<div class="card shadow-lg border-0 rounded-4">
+<div class="card-body">
+
+<div class="table-responsive">
+
+<table id="tablaClientes"
+class="table table-hover table-striped align-middle text-center">
+
+<thead class="table-dark">
+<tr>
+<th>ID</th>
+<th>Nombre</th>
+<th>Apellido</th>
+<th>Teléfono</th>
+<th>CI</th>
+<th>Acciones</th>
+</tr>
+</thead>
+
+<tbody>
+{% for c in data %}
+<tr>
+<td>{{ c.id }}</td>
+<td class="fw-semibold">{{ c.nombre }}</td>
+<td>{{ c.apellido }}</td>
+<td>{{ c.telefono }}</td>
+<td>{{ c.ci }}</td>
+
+<td>
+
+<a href="{{ url_for('clientes.edit', id=c.id) }}"
+class="btn btn-warning btn-sm rounded-pill px-3 me-2">
+<i class="bi bi-pencil"></i>Editar
+</a>
+
+<a href="{{ url_for('clientes.delete', id=c.id) }}"
+class="btn btn-danger btn-sm rounded-pill px-3"
+onclick="return confirm('¿Eliminar cliente?')">
+<i class="bi bi-trash"></i>Eliminar
+</a>
+
+</td>
+</tr>
+{% endfor %}
+</tbody>
+
+</table>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+
+<!-- JQUERY -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<!-- DATATABLE -->
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+<!-- SELECT2 -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<script>
+$(document).ready(function() {
+
+let tabla = $('#tablaClientes').DataTable({
+    pageLength: 7,
+    language: {
+        url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json"
+    }
+});
+
+$('#filtroApellido').select2({
+    placeholder: "Filtrar apellido",
+    width: "200px"
+});
+
+$('#filtroApellido').on('change', function() {
+    tabla.column(2).search(this.value).draw();
+});
+
+});
+</script>
+
+{% endblock %}

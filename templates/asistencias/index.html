@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block title %}Asistencias{% endblock %}
+
+{% block content %}
+<h2 class="fw-bold mb-4">Asistencias</h2>
+
+<a href="{{ url_for('asistencias.create') }}"
+class="btn btn-light mb-4 text-primary shadow-sm rounded-pill">
+<i class="bi bi-plus-circle"></i> Registrar Asistencia
+</a>
+
+<div class="card shadow-lg border-0 glass-card">
+<div class="card-body">
+
+<div class="table-responsive">
+<table id="tablaUsuarios"
+class="table table-striped table-hover align-middle text-center text-dark w-100">
+
+<thead class="table-dark">
+<tr>
+<th>ID</th>
+<th>Cliente</th>
+<th>Fecha</th>
+<th>Entrada</th>
+<th>Salida</th>
+<th>Acciones</th>
+</tr>
+</thead>
+
+<tbody>
+{% for a in data %}
+<tr>
+<td>{{ a.id }}</td>
+
+<td>
+{{ a.cliente.nombre }} {{ a.cliente.apellido }}
+</td>
+
+<td>{{ a.fecha.strftime('%d/%m/%Y') }}</td>
+
+<td>
+{{ a.hora_entrada.strftime('%H:%M') if a.hora_entrada else '-' }}
+</td>
+
+<td>
+{{ a.hora_salida.strftime('%H:%M') if a.hora_salida else 'En gimnasio' }}
+</td>
+
+<td>
+
+<a href="{{ url_for('asistencias.edit', id=a.id) }}"
+class="btn btn-warning btn-sm rounded-pill px-3 me-2">
+Editar
+</a>
+
+<a href="{{ url_for('asistencias.delete', id=a.id) }}"
+class="btn btn-danger btn-sm rounded-pill px-3"
+onclick="return confirm('¿Eliminar asistencia?')">
+Eliminar
+</a>
+
+{% if not a.hora_salida %}
+<a href="{{ url_for('asistencias.salida', id=a.id) }}"
+class="btn btn-success btn-sm rounded-pill px-3">
+Salida
+</a>
+{% endif %}
+
+</td>
+</tr>
+{% endfor %}
+</tbody>
+
+</table>
+</div>
+
+</div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="/static/js/usuarios_datatable.js"></script>
+{% endblock %}

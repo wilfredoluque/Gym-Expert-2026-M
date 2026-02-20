@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% block title %}Gym Expert{% endblock %}</title>
+
+    <!-- FONTS -->
+    <link href="{{ url_for('static', filename='vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700,800,900" rel="stylesheet">
+
+    <!-- SB ADMIN -->
+    <link href="{{ url_for('static', filename='css/sb-admin-2.min.css') }}" rel="stylesheet">
+
+    <!-- CSS EXTRA -->
+    <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom-dashboard.css') }}">
+
+    <!-- SELECT2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
+
+    <!-- DATATABLES -->
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+</head>
+
+<body id="page-top">
+<div id="wrapper">
+
+    <!-- SIDEBAR -->
+    <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
+
+        <!-- LOGO -->
+        <a class="sidebar-brand d-flex align-items-center justify-content-center flex-column"
+           href="{{ url_for('dashboard.index') }}">
+
+            <img src="{{ url_for('static', filename='img/logo_gym_expres.jpeg') }}"
+                 style="width:85px; margin-bottom:5px;">
+
+            <div class="sidebar-brand-text mx-1">Gym Expert</div>
+        </a>
+
+        <hr class="sidebar-divider my-0">
+
+        <li class="nav-item {{ is_active('/dashboard') }}">
+            <a class="nav-link" href="{{ url_for('dashboard.index') }}">
+                <i class="fas fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+
+        <hr class="sidebar-divider">
+        <div class="sidebar-heading">Gestión</div>
+
+        {% if session.get('user_rol') == 'admin' %}
+        <li class="nav-item {{ is_active('/usuarios') }}">
+            <a class="nav-link" href="{{ url_for('usuarios.index') }}">
+                <i class="fas fa-users"></i><span>Usuarios</span>
+            </a>
+        </li>
+        {% endif %}
+
+        <li class="nav-item {{ is_active('/clientes') }}">
+            <a class="nav-link" href="{{ url_for('clientes.index') }}">
+                <i class="fas fa-user"></i><span>Clientes</span>
+            </a>
+        </li>
+
+        {% if session.get('user_rol') == 'admin' %}
+        <li class="nav-item {{ is_active('/planes') }}">
+            <a class="nav-link" href="{{ url_for('planes.index') }}">
+                <i class="fas fa-layer-group"></i><span>Planes</span>
+            </a>
+        </li>
+        {% endif %}
+
+        <li class="nav-item {{ is_active('/membresias') }}">
+            <a class="nav-link" href="{{ url_for('membresias.index') }}">
+                <i class="fas fa-id-card"></i><span>Membresías</span>
+            </a>
+        </li>
+
+        {% if session.get('user_rol') == 'admin' %}
+        <li class="nav-item {{ is_active('/pagos') }}">
+            <a class="nav-link" href="{{ url_for('pagos.index') }}">
+                <i class="fas fa-dollar-sign"></i><span>Pagos</span>
+            </a>
+        </li>
+        {% endif %}
+
+        <li class="nav-item {{ is_active('/asistencias') }}">
+            <a class="nav-link" href="{{ url_for('asistencias.index') }}">
+                <i class="fas fa-check"></i><span>Asistencias</span>
+            </a>
+        </li>
+
+        <li class="nav-item {{ is_active('/entrenadores') }}">
+            <a class="nav-link" href="{{ url_for('entrenadores.index') }}">
+                <i class="fas fa-dumbbell"></i><span>Entrenadores</span>
+            </a>
+        </li>
+
+        <li class="nav-item {{ is_active('/rutinas') }}">
+            <a class="nav-link" href="{{ url_for('rutinas.index') }}">
+                <i class="fas fa-clipboard-list"></i><span>Rutinas</span>
+            </a>
+        </li>
+
+        <li class="nav-item {{ is_active('/ejercicios') }}">
+            <a class="nav-link" href="{{ url_for('ejercicios.index') }}">
+                <i class="fas fa-running"></i><span>Ejercicios</span>
+            </a>
+        </li>
+
+        {% if session.get('user_rol') == 'admin' %}
+        <li class="nav-item {{ is_active('/productos') }}">
+            <a class="nav-link" href="{{ url_for('productos.index') }}">
+                <i class="fas fa-box"></i><span>Productos</span>
+            </a>
+        </li>
+
+        <li class="nav-item {{ is_active('/inventario') }}">
+            <a class="nav-link" href="{{ url_for('inventario.index') }}">
+                <i class="fas fa-warehouse"></i><span>Inventario</span>
+            </a>
+        </li>
+
+        <li class="nav-item {{ is_active('/estadisticas') }}">
+            <a class="nav-link" href="{{ url_for('estadistica.index') }}">
+                <i class="fas fa-chart-pie"></i><span>Estadísticas</span>
+            </a>
+        </li>
+        {% endif %}
+
+        <hr class="sidebar-divider">
+
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('auth.logout') }}">
+                <i class="fas fa-sign-out-alt"></i><span>Salir</span>
+            </a>
+        </li>
+    </ul>
+
+    <!-- CONTENT -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+
+            <!-- TOPBAR -->
+            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 shadow">
+                <button id="sidebarToggleTop"
+                        class="btn btn-link d-md-none rounded-circle mr-3">
+                    <i class="fa fa-bars"></i>
+                </button>
+
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item no-arrow text-right mr-3">
+                        <span class="nav-link">
+                            <i class="fas fa-user-circle"></i>
+                            <b>{{ session.get('user_nombre') }}</b><br>
+
+                            {% if session.get('user_rol') == 'admin' %}
+                                <small class="text-success">Administrador</small>
+                            {% else %}
+                                <small class="text-info">Recepción</small>
+                            {% endif %}
+                        </span>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="container-fluid">
+                {% block content %}{% endblock %}
+            </div>
+
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="footer py-4 bg-dark text-center text-light">
+    <div class="container">
+        <small class="d-block mb-1">
+            © {{ current_year }} Gym Expert. Todos los derechos reservados.
+        </small>
+
+        <small class="text-secondary">
+            Desarrollado por <span class="fw-semibold text-light">Wilfredo Luque Mayta</span>
+        </small>
+    </div>
+</footer>
+
+    </div>
+
+</div>
+
+<!-- JS -->
+<script src="{{ url_for('static', filename='vendor/jquery/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/sb-admin-2.min.js') }}"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+
+
+{% block extra_js %}{% endblock %}
+
+
+
+
+
+</body>
+</html>

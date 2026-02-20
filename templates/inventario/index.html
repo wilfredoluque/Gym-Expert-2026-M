@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% block title %}Inventario{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+
+<h2 class="fw-bold mb-4">
+<i class="bi bi-boxes"></i> Movimientos de Inventario
+</h2>
+
+<div class="d-flex justify-content-between mb-3">
+
+<a href="{{ url_for('inventario.create') }}"
+class="btn btn-primary shadow rounded-pill px-4">
+<i class="bi bi-plus-circle"></i> Nuevo Movimiento
+</a>
+
+<!-- filtro tipo -->
+<select id="filtroTipo" class="form-select w-auto">
+<option value="">Filtrar tipo</option>
+<option value="entrada">Entradas</option>
+<option value="salida">Salidas</option>
+</select>
+
+</div>
+
+<div class="card shadow-lg border-0 rounded-4">
+<div class="card-body">
+
+<div class="table-responsive">
+
+<table id="tablaInventario"
+class="table table-hover table-striped align-middle text-center">
+
+<thead class="table-dark">
+<tr>
+<th>ID</th>
+<th>Producto</th>
+<th>Cantidad</th>
+<th>Tipo</th>
+<th>Fecha</th>
+</tr>
+</thead>
+
+<tbody>
+{% for i in data %}
+<tr>
+<td>{{ i.id }}</td>
+
+<td class="fw-semibold">
+{{ i.producto.nombre if i.producto else 'Sin producto' }}
+</td>
+
+<td>
+<span class="badge bg-secondary">
+{{ i.cantidad }}
+</span>
+</td>
+
+<td>
+{% if i.tipo == 'entrada' %}
+<span class="badge bg-success">Entrada</span>
+{% else %}
+<span class="badge bg-danger">Salida</span>
+{% endif %}
+</td>
+
+<td>{{ i.fecha.strftime("%d/%m/%Y %H:%M") }}</td>
+</tr>
+{% endfor %}
+</tbody>
+
+</table>
+
+</div>
+</div>
+</div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+
+<!-- JQUERY -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<!-- DATATABLE -->
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+<!-- SELECT2 -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<script>
+$(document).ready(function() {
+
+let tabla = $('#tablaInventario').DataTable({
+    pageLength: 8,
+    order: [[0, "desc"]],
+    language: {
+        url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json"
+    }
+});
+
+$('#filtroTipo').select2({
+    placeholder: "Filtrar tipo",
+    width: "180px"
+});
+
+$('#filtroTipo').on('change', function() {
+    tabla.column(3).search(this.value).draw();
+});
+
+});
+</script>
+
+{% endblock %}

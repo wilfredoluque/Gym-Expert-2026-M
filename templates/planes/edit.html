@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Editar Plan{% endblock %}
+
+{% block content %}
+<h2 class="fw-bold mb-4">Editar Plan</h2>
+
+<div class="card shadow-lg border-0 glass-card">
+<div class="card-body">
+
+<form method="POST">
+
+<div class="mb-3">
+<label class="form-label fw-semibold">Nombre</label>
+<input type="text" name="nombre"
+value="{{ item.nombre }}"
+class="form-control" required>
+</div>
+
+<div class="mb-3">
+<label class="form-label fw-semibold">Precio</label>
+<input type="number" step="0.01" name="precio"
+value="{{ item.precio }}"
+class="form-control" required>
+</div>
+
+<div class="mb-4">
+<label class="form-label fw-semibold">Duración</label>
+<input type="number" name="duracion"
+value="{{ item.duracion_dias }}"
+class="form-control" required>
+</div>
+
+<button type="submit" class="btn btn-success">
+Actualizar
+</button>
+
+<a href="{{ url_for('planes.index') }}" class="btn btn-secondary">
+Volver
+</a>
+
+</form>
+
+</div>
+</div>
+{% endblock %}

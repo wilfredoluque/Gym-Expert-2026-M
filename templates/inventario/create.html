@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}Movimiento Inventario{% endblock %}
+
+{% block content %}
+<h2 class="fw-bold mb-4">Movimiento Inventario</h2>
+
+<div class="card shadow-lg border-0">
+<div class="card-body">
+
+<form method="POST" action="{{ url_for('inventario.movimiento') }}">
+
+<div class="mb-3">
+<label class="form-label">Producto</label>
+<select name="producto_id" class="form-select form-select-lg" required>
+{% for p in productos %}
+<option value="{{ p.id }}">
+{{ p.nombre }} (Stock: {{ p.stock }})
+</option>
+{% endfor %}
+</select>
+</div>
+
+<div class="mb-3">
+<label class="form-label">Tipo</label>
+<select name="tipo" class="form-select form-select-lg">
+<option value="entrada">Entrada</option>
+<option value="salida">Salida</option>
+</select>
+</div>
+
+<div class="mb-4">
+<label class="form-label">Cantidad</label>
+<input type="number" name="cantidad" class="form-control form-control-lg" required>
+</div>
+
+<button class="btn btn-primary btn-lg">
+Guardar Movimiento
+</button>
+
+</form>
+
+</div>
+</div>
+{% endblock %}

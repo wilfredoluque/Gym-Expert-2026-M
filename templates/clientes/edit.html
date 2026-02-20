@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}Editar Cliente{% endblock %}
+
+{% block content %}
+<h2 class="fw-bold mb-4">Editar Cliente</h2>
+
+<div class="card shadow-lg border-0">
+<div class="card-body">
+
+<form method="POST">
+
+<div class="mb-3">
+<label class="form-label">Nombre</label>
+<input type="text" name="nombre" class="form-control"
+value="{{ item.nombre }}" required>
+</div>
+
+<div class="mb-3">
+<label class="form-label">Apellido</label>
+<input type="text" name="apellido" class="form-control"
+value="{{ item.apellido }}" required>
+</div>
+
+<div class="mb-3">
+<label class="form-label">Teléfono</label>
+<input type="text" name="telefono" class="form-control"
+value="{{ item.telefono }}">
+</div>
+
+<div class="mb-3">
+<label class="form-label">CI</label>
+<input type="text" name="ci" class="form-control"
+value="{{ item.ci }}">
+</div>
+
+<button class="btn btn-success rounded-pill">
+<i class="fas fa-check"></i> Actualizar
+</button>
+
+</form>
+
+</div>
+</div>
+{% endblock %}

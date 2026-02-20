@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Crear Rutina{% endblock %}
+
+{% block content %}
+<h2 class="fw-bold mb-4">Nueva Rutina</h2>
+
+<div class="card shadow-lg border-0 glass-card">
+<div class="card-body">
+
+<form method="POST">
+
+<div class="mb-3">
+<label class="fw-semibold">Cliente</label>
+<select name="cliente_id" class="form-select">
+{% for c in clientes %}
+<option value="{{ c.id }}">{{ c.nombre }}</option>
+{% endfor %}
+</select>
+</div>
+
+<div class="mb-3">
+<label class="fw-semibold">Entrenador</label>
+<select name="entrenador_id" class="form-select">
+{% for e in entrenadores %}
+<option value="{{ e.id }}">{{ e.nombre }}</option>
+{% endfor %}
+</select>
+</div>
+
+<div class="mb-3">
+<label class="fw-semibold">Nombre Rutina</label>
+<input type="text" name="nombre" class="form-control" required>
+</div>
+
+<button class="btn btn-primary btn-lg">
+<i class="bi bi-save"></i> Guardar
+</button>
+
+</form>
+
+</div>
+</div>
+{% endblock %}

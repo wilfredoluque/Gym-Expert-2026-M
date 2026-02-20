@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block title %}Pagos{% endblock %}
+
+{% block content %}
+<h2 class="fw-bold mb-4">Pagos</h2>
+
+<a href="{{ url_for('pagos.create') }}"
+class="btn btn-primary mb-4 rounded-pill shadow">
+<i class="bi bi-plus-circle"></i> Registrar Pago
+</a>
+
+<div class="card shadow-lg border-0">
+<div class="card-body">
+
+<div class="table-responsive">
+<table id="tablaPagos"
+class="table table-striped table-hover text-center">
+
+<thead class="table-dark">
+<tr>
+<th>ID</th>
+<th>Cliente</th>
+<th>Plan</th>
+<th>Monto</th>
+<th>Método</th>
+<th>Fecha</th>
+<th>Acciones</th>
+</tr>
+</thead>
+
+<tbody>
+{% for p in data %}
+<tr>
+<td>{{ p.id }}</td>
+<td>{{ p.cliente.nombre }} {{ p.cliente.apellido }}</td>
+<td>
+  {{ p.membresia.plan.nombre if p.membresia and p.membresia.plan else 'Sin plan' }}
+</td>
+
+<td><b>Bs {{ p.monto }}</b></td>
+<td>
+<span class="badge bg-info text-dark">
+{{ p.metodo }}
+</span>
+</td>
+<td>{{ p.fecha.strftime("%d/%m/%Y") }}</td>
+
+<td>
+<a href="{{ url_for('pagos.edit', id=p.id) }}"
+class="btn btn-warning btn-sm rounded-pill">
+<i class="bi bi-pencil"></i>Editar
+</a>
+
+<a href="{{ url_for('pagos.delete', id=p.id) }}"
+class="btn btn-danger btn-sm rounded-pill"
+onclick="return confirm('¿Eliminar pago?')">
+<i class="bi bi-trash"></i>Eliminar
+</a>
+</td>
+</tr>
+{% endfor %}
+</tbody>
+
+</table>
+</div>
+</div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+$(document).ready(function(){
+    $('#tablaPagos').DataTable();
+});
+</script>
+{% endblock %}

@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% block title %}Productos{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+
+<h2 class="fw-bold mb-4">
+<i class="bi bi-box-seam"></i> Gestión de Productos
+</h2>
+
+<div class="d-flex justify-content-between mb-3">
+
+<a href="{{ url_for('productos.create') }}"
+class="btn btn-primary shadow rounded-pill px-4">
+<i class="bi bi-plus-circle"></i> Nuevo Producto
+</a>
+
+<!-- filtro stock -->
+<select id="filtroStock" class="form-select w-auto">
+<option value="">Filtrar stock</option>
+<option value="0">Sin stock</option>
+<option value="1">Con stock</option>
+</select>
+
+</div>
+
+<div class="card shadow-lg border-0 rounded-4">
+<div class="card-body">
+
+<div class="table-responsive">
+
+<table id="tablaProductos"
+class="table table-hover table-striped align-middle text-center">
+
+<thead class="table-dark">
+<tr>
+<th>ID</th>
+<th>Nombre</th>
+<th>Precio</th>
+<th>Stock</th>
+<th>Acciones</th>
+</tr>
+</thead>
+
+<tbody>
+{% for p in data %}
+<tr>
+<td>{{ p.id }}</td>
+<td class="fw-semibold">{{ p.nombre }}</td>
+<td>Bs {{ p.precio }}</td>
+
+<td>
+{% if p.stock > 0 %}
+<span class="badge bg-success">{{ p.stock }}</span>
+{% else %}
+<span class="badge bg-danger">0</span>
+{% endif %}
+</td>
+
+<td>
+
+<a href="{{ url_for('productos.edit', id=p.id) }}"
+class="btn btn-warning btn-sm rounded-pill px-3 me-2">
+<i class="bi bi-pencil"></i>Editar
+</a>
+
+<a href="{{ url_for('productos.delete', id=p.id) }}"
+class="btn btn-danger btn-sm rounded-pill px-3"
+onclick="return confirm('¿Eliminar producto?')">
+<i class="bi bi-trash"></i>Eliminar
+</a>
+
+</td>
+</tr>
+{% endfor %}
+</tbody>
+
+</table>
+
+</div>
+</div>
+</div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+
+<!-- JQUERY -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<!-- DATATABLE -->
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+<!-- SELECT2 -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<script>
+$(document).ready(function() {
+
+let tabla = $('#tablaProductos').DataTable({
+    pageLength: 7,
+    language: {
+        url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json"
+    }
+});
+
+$('#filtroStock').select2({
+    placeholder: "Filtrar stock",
+    width: "180px"
+});
+
+$('#filtroStock').on('change', function() {
+    if(this.value == "0"){
+        tabla.column(3).search("^0$", true, false).draw();
+    } else if(this.value == "1"){
+        tabla.column(3).search("^[1-9]", true, false).draw();
+    } else {
+        tabla.column(3).search("").draw();
+    }
+});
+
+});
+</script>
+
+{% endblock %}

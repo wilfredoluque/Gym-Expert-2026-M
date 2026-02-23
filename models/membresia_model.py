@@ -10,7 +10,6 @@ class Membresia(db.Model):
     plan_id = db.Column(db.Integer, db.ForeignKey("planes.id"))
     fecha_inicio = db.Column(db.DateTime)
     fecha_fin = db.Column(db.DateTime)
-    estado = db.Column(db.String(20), default="activa")
 
     cliente = db.relationship("Cliente")
     plan = db.relationship("Plan")
@@ -20,7 +19,6 @@ class Membresia(db.Model):
         self.plan_id = plan.id
         self.fecha_inicio = datetime.now()
 
-        # 🔥 CALCULAR FECHA FIN SEGÚN TIPO DE PLAN
         if plan.tipo_plan == "sesion":
             horas = plan.duracion_horas if plan.duracion_horas else 0
             self.fecha_fin = self.fecha_inicio + timedelta(hours=horas)
@@ -28,7 +26,13 @@ class Membresia(db.Model):
             dias = plan.duracion_dias if plan.duracion_dias else 0
             self.fecha_fin = self.fecha_inicio + timedelta(days=dias)
 
-        self.estado = "activa"
+    # 🔥 ESTADO DINÁMICO
+    @property
+    def estado_actual(self):
+        ahora = datetime.now()
+        if self.fecha_fin < ahora:
+            return "vencida"
+        return "activa"
 
     def save(self):
         db.session.add(self)

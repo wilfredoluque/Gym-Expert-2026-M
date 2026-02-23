@@ -3,11 +3,12 @@
 
 {% block content %}
 
-<!-- FONDO LOGO DASHBOARD -->
 <div class="dashboard-bg"></div>
 
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-    <h1 class="h3 mb-0 text-gray-800">Dashboard Gym</h1>
+    <h1 class="h3 mb-0 text-gray-800 fw-bold">
+        Dashboard Gym - Resumen General
+    </h1>
 </div>
 
 <div class="row">
@@ -15,12 +16,12 @@
     <!-- CLIENTES -->
     <div class="col-xl-3 col-md-6 mb-4">
         <div class="card border-left-primary shadow h-100 py-2">
-            <div class="card-body">
-                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+            <div class="card-body text-center">
+                <div class="text-xs fw-bold text-primary text-uppercase mb-1">
                     Clientes
                 </div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800">
-                    {{ total_clientes or 0 }}
+                <div class="h4 fw-bold">
+                    {{ total_clientes }}
                 </div>
             </div>
         </div>
@@ -29,12 +30,12 @@
     <!-- MEMBRESIAS -->
     <div class="col-xl-3 col-md-6 mb-4">
         <div class="card border-left-success shadow h-100 py-2">
-            <div class="card-body">
-                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+            <div class="card-body text-center">
+                <div class="text-xs fw-bold text-success text-uppercase mb-1">
                     Membresías activas
                 </div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800">
-                    {{ total_membresias or 0 }}
+                <div class="h4 fw-bold">
+                    {{ total_membresias }}
                 </div>
             </div>
         </div>
@@ -43,12 +44,12 @@
     <!-- INGRESOS -->
     <div class="col-xl-3 col-md-6 mb-4">
         <div class="card border-left-warning shadow h-100 py-2">
-            <div class="card-body">
-                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                    Ingresos
+            <div class="card-body text-center">
+                <div class="text-xs fw-bold text-warning text-uppercase mb-1">
+                    Ingresos Totales
                 </div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800">
-                    Bs {{ total_ingresos or 0 }}
+                <div class="h4 fw-bold">
+                    Bs {{ total_ingresos }}
                 </div>
             </div>
         </div>
@@ -57,17 +58,45 @@
     <!-- ASISTENCIAS -->
     <div class="col-xl-3 col-md-6 mb-4">
         <div class="card border-left-info shadow h-100 py-2">
-            <div class="card-body">
-                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+            <div class="card-body text-center">
+                <div class="text-xs fw-bold text-info text-uppercase mb-1">
                     Asistencias hoy
                 </div>
-                <div class="h5 mb-0 font-weight-bold text-gray-800">
-                    {{ total_asistencias or 0 }}
+                <div class="h4 fw-bold">
+                    {{ total_asistencias }}
                 </div>
             </div>
         </div>
     </div>
 
+</div>
+
+<!-- INGRESOS POR MES -->
+
+<div class="card shadow mb-4">
+    <div class="card-header bg-dark text-white fw-bold">
+        Ingresos por Mes
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+
+            {% for mes in meses %}
+            <div class="col-md-3 col-sm-6 mb-3">
+                <div class="border rounded p-3 text-center shadow-sm
+                {% if loop.index == mes_actual %}
+                    bg-success text-white
+                {% endif %}">
+
+                    <h6 class="fw-bold">{{ mes }}</h6>
+                    <h5>Bs {{ ingresos_por_mes[loop.index0] }}</h5>
+
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
 </div>
 
 {% endblock %}

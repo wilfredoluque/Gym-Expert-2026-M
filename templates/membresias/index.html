@@ -14,6 +14,27 @@ class="btn btn-primary rounded-pill shadow mb-3">
 <div class="card shadow-lg border-0">
 <div class="card-body">
 
+<!-- 🔥 FILTRO POR MES -->
+<form method="GET" class="mb-3">
+<select name="mes" class="form-select w-25 d-inline">
+<option value="">Todos los meses</option>
+
+{% set meses = [
+"Enero","Febrero","Marzo","Abril","Mayo","Junio",
+"Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"
+] %}
+
+{% for i in range(1,13) %}
+<option value="{{ i }}"
+{% if mes_actual and mes_actual|int == i %}selected{% endif %}>
+{{ meses[i-1] }}
+</option>
+{% endfor %}
+</select>
+
+<button class="btn btn-primary ms-2">Filtrar</button>
+</form>
+
 <table id="tablaMembresias"
 class="table table-striped table-hover text-center">
 
@@ -39,10 +60,10 @@ class="table table-striped table-hover text-center">
 <td>{{ m.fecha_fin.strftime("%d/%m/%Y") }}</td>
 
 <td>
-{% if m.estado == "activa" %}
-<span class="badge bg-success">Activa</span>
+{% if m.estado_actual == "activa" %}
+    <span class="badge bg-success">Activa</span>
 {% else %}
-<span class="badge bg-danger">Vencida</span>
+    <span class="badge bg-danger">Vencida</span>
 {% endif %}
 </td>
 
@@ -69,10 +90,8 @@ onclick="return confirm('¿Eliminar?')">
 </div>
 {% endblock %}
 
-
 {% block extra_js %}
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 

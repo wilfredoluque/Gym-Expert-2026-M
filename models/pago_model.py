@@ -1,5 +1,7 @@
 from core.database import db
 from datetime import datetime
+from sqlalchemy import extract, func
+
 
 class Pago(db.Model):
     __tablename__ = "pagos"
@@ -27,7 +29,7 @@ class Pago(db.Model):
 
     @staticmethod
     def get_all():
-        return Pago.query.all()
+        return Pago.query.order_by(Pago.fecha.desc()).all()
 
     @staticmethod
     def get_by_id(id):
@@ -36,3 +38,35 @@ class Pago(db.Model):
     def delete(self):
         db.session.delete(self)
         db.session.commit()
+
+    # ==========================================
+    # MÉTODOS PRO PARA DASHBOARD
+    # ==========================================
+
+    @staticmethod
+    def ingresos_totales():
+        total = db.session.query(func.sum(Pago.monto)).scalar()
+        return float(total or 0)
+
+    @staticmethod
+    def ingresos_por_mes(anio=None):
+
+        if not anio:
+            anio = datetime.now().year
+
+        resultados = (
+            db.session.query(
+                extract('month', Pago.fecha).label('mes'),
+                func.sum(Pago.monto).label('total')
+            )
+            .filter(extract('year', Pago.fecha) == anio)
+            .group_by('mes')
+            .all()
+        )
+
+        ingresos = [0] * 12
+
+        for mes, total in resultados:
+            ingresos[int(mes) - 1] = float(total)
+
+        return ingresos

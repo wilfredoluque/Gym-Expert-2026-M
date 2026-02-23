@@ -3,14 +3,26 @@ from models.membresia_model import Membresia
 from models.cliente_model import Cliente
 from models.plan_model import Plan
 from core.database import db
+from sqlalchemy import extract
 
 bp = Blueprint("membresias", __name__, url_prefix="/membresias")
 
-
 @bp.route("/")
 def index():
-    data = Membresia.get_all()
-    return render_template("membresias/index.html", data=data)
+    mes = request.args.get("mes")
+
+    if mes and mes.isdigit():
+        data = Membresia.query.filter(
+            extract('month', Membresia.fecha_inicio) == int(mes)
+        ).all()
+    else:
+        data = Membresia.get_all()
+
+    return render_template(
+        "membresias/index.html",
+        data=data,
+        mes_actual=mes
+    )
 
 
 @bp.route("/create", methods=["GET", "POST"])

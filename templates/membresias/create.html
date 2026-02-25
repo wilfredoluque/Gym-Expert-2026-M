@@ -11,7 +11,8 @@
 
 <div class="mb-3">
 <label>Cliente</label>
-<select name="cliente_id" id="clienteSelect" class="form-select" required>
+<select name="cliente_id" id="clienteSelect"
+class="form-select" required>
 {% for c in clientes %}
 <option value="{{ c.id }}">
 {{ c.nombre }} {{ c.apellido }}
@@ -22,14 +23,15 @@
 
 <div class="mb-3">
 <label>Plan</label>
-<select name="plan_id" id="planSelect" class="form-select" required>
+<select name="plan_id" id="planSelect"
+class="form-select" required>
 
 {% for p in planes %}
 <option value="{{ p.id }}">
 {% if p.tipo_plan == "sesion" %}
-    {{ p.nombre }} - {{ p.duracion_horas if p.duracion_horas else 0 }} horas
+{{ p.nombre }} - {{ p.duracion_horas or 0 }} horas
 {% else %}
-    {{ p.nombre }} - {{ p.duracion_dias if p.duracion_dias else 0 }} días
+{{ p.nombre }} - {{ p.duracion_dias or 0 }} días
 {% endif %}
 </option>
 {% endfor %}
@@ -48,13 +50,11 @@ Guardar
 {% endblock %}
 
 {% block extra_js %}
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
 <script>
 $(document).ready(function(){
-$("#clienteSelect").select2();
-$("#planSelect").select2();
+  $('#clienteSelect').select2();
+  $('#planSelect').select2();
 });
 </script>
 {% endblock %}

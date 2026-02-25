@@ -242,3 +242,27 @@ body{
 .footer span {
     color: #0d6efd;
 }
+/* =============================
+   FIX TABLAS EN MOBILE
+============================= */
+@media (max-width: 768px) {
+
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  table.dataTable {
+    width: 100% !important;
+  }
+
+  .dataTables_wrapper .dataTables_filter,
+  .dataTables_wrapper .dataTables_length {
+    text-align: left;
+    margin-bottom: 10px;
+  }
+
+  .dataTables_wrapper .dataTables_paginate {
+    text-align: center;
+  }
+}

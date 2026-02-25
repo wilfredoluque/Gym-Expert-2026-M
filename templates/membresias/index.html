@@ -4,105 +4,106 @@
 {% block content %}
 <div class="container-fluid mt-4">
 
-<h2 class="fw-bold mb-4">Membresías</h2>
+    <h2 class="fw-bold mb-4">Membresías</h2>
 
-<a href="{{ url_for('membresias.create') }}"
-class="btn btn-primary rounded-pill shadow mb-3">
-<i class="bi bi-plus-circle"></i> Nueva Membresía
-</a>
+    <a href="{{ url_for('membresias.create') }}"
+       class="btn btn-warning rounded-pill shadow mb-3">
+        Nueva Membresía
+    </a>
 
-<div class="card shadow-lg border-0">
-<div class="card-body">
+    <div class="card shadow-lg border-0">
+        <div class="card-body">
 
-<!-- 🔥 FILTRO POR MES -->
-<form method="GET" class="mb-3">
-<select name="mes" class="form-select w-25 d-inline">
-<option value="">Todos los meses</option>
+            <!-- FILTRO POR MES -->
+            <form method="GET" class="mb-3">
+                <select name="mes" class="form-select w-auto d-inline">
+                    <option value="">Todos</option>
 
-{% set meses = [
-"Enero","Febrero","Marzo","Abril","Mayo","Junio",
-"Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"
-] %}
+                    {% set meses = [
+                        "Enero","Febrero","Marzo","Abril","Mayo","Junio",
+                        "Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"
+                    ] %}
 
-{% for i in range(1,13) %}
-<option value="{{ i }}"
-{% if mes_actual and mes_actual|int == i %}selected{% endif %}>
-{{ meses[i-1] }}
-</option>
-{% endfor %}
-</select>
+                    {% for i in range(1,13) %}
+                    <option value="{{ i }}"
+                        {% if mes_actual and mes_actual|int == i %}selected{% endif %}>
+                        {{ meses[i-1] }}
+                    </option>
+                    {% endfor %}
+                </select>
 
-<button class="btn btn-primary ms-2">Filtrar</button>
-</form>
+                <button class="btn btn-warning ms-2">Filtrar</button>
+            </form>
 
-<table id="tablaMembresias"
-class="table table-striped table-hover text-center">
+            <!-- TABLA -->
+            <div class="table-responsive">
+                <table id="tablaMembresias"
+                       class="table table-dark table-striped table-hover text-center"
+                       style="width:100%">
 
-<thead class="table-dark">
-<tr>
-<th>ID</th>
-<th>Cliente</th>
-<th>Plan</th>
-<th>Inicio</th>
-<th>Fin</th>
-<th>Estado</th>
-<th>Acciones</th>
-</tr>
-</thead>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Cliente</th>
+                            <th>Plan</th>
+                            <th>Inicio</th>
+                            <th>Fin</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
 
-<tbody>
-{% for m in data %}
-<tr>
-<td>{{ m.id }}</td>
-<td>{{ m.cliente.nombre }} {{ m.cliente.apellido }}</td>
-<td>{{ m.plan.nombre }}</td>
-<td>{{ m.fecha_inicio.strftime("%d/%m/%Y") }}</td>
-<td>{{ m.fecha_fin.strftime("%d/%m/%Y") }}</td>
+                    <tbody>
+                        {% for m in data %}
+                        <tr>
+                            <td>{{ m.id }}</td>
+                            <td>{{ m.cliente.nombre }} {{ m.cliente.apellido }}</td>
+                            <td>{{ m.plan.nombre }}</td>
+                            <td>{{ m.fecha_inicio.strftime("%d/%m/%Y") }}</td>
+                            <td>{{ m.fecha_fin.strftime("%d/%m/%Y") }}</td>
+                            <td>
+                                {% if m.estado_actual == "activa" %}
+                                    <span class="badge bg-success">Activa</span>
+                                {% else %}
+                                    <span class="badge bg-danger">Vencida</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{{ url_for('membresias.edit', id=m.id) }}"
+                                   class="btn btn-warning btn-sm rounded-pill">
+                                    Editar
+                                </a>
 
-<td>
-{% if m.estado_actual == "activa" %}
-    <span class="badge bg-success">Activa</span>
-{% else %}
-    <span class="badge bg-danger">Vencida</span>
-{% endif %}
-</td>
+                                <a href="{{ url_for('membresias.delete', id=m.id) }}"
+                                   class="btn btn-danger btn-sm rounded-pill"
+                                   onclick="return confirm('¿Eliminar?')">
+                                    Eliminar
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
 
-<td>
-<a href="{{ url_for('membresias.edit', id=m.id) }}"
-class="btn btn-warning btn-sm rounded-pill">
-<i class="bi bi-pencil"></i>Editar
-</a>
+                </table>
+            </div>
 
-<a href="{{ url_for('membresias.delete', id=m.id) }}"
-class="btn btn-danger btn-sm rounded-pill"
-onclick="return confirm('¿Eliminar?')">
-<i class="bi bi-trash"></i>Eliminar
-</a>
-</td>
-</tr>
-{% endfor %}
-</tbody>
-
-</table>
-
-</div>
-</div>
+        </div>
+    </div>
 </div>
 {% endblock %}
 
 {% block extra_js %}
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-
 <script>
-$(document).ready(function() {
-$('#tablaMembresias').DataTable({
-    pageLength: 7,
-    language: {
-        url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json"
-    }
-});
+$(document).ready(function () {
+    $('#tablaMembresias').DataTable({
+        pageLength: 7,
+        responsive: false,      // 🔴 CLAVE: desactiva filas hijas
+        scrollX: true,          // ✅ scroll horizontal como PAGOS
+        autoWidth: false,
+        language: {
+            url: "//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json"
+        }
+    });
 });
 </script>
 {% endblock %}

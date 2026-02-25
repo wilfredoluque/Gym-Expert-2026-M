@@ -136,3 +136,8 @@
 .select2-search__field {
     border-radius: 6px;
 }
+@media (max-width: 768px) {
+  .card {
+    overflow-x: auto;
+  }
+}
